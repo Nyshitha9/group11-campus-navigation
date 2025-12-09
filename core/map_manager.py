@@ -25,3 +25,9 @@ class MapManager:
 
         FileHandler.save_map(data)
         return True, "Location added successfully."
+    
+    @staticmethod
+    def search_by_name(query):
+        data = FileHandler.load_map()
+        query = query.lower()
+        return [loc for loc in data["locations"] if query in loc.lower()]
