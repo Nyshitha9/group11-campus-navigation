@@ -31,3 +31,24 @@ class MapManager:
         data = FileHandler.load_map()
         query = query.lower()
         return [loc for loc in data["locations"] if query in loc.lower()]
+    
+    @staticmethod
+    def remove_location(name):
+        data = FileHandler.load_map()
+
+        if name not in data["locations"]:
+            return False, "Location not found"
+
+        del data["locations"][name]
+
+        # Remove paths
+        if name in data["paths"]:
+            del data["paths"][name]
+
+        for loc in data["paths"]:
+            if name in data["paths"][loc]:
+                data["paths"][loc].remove(name)
+
+        FileHandler.save_map(data)
+        return True, "Location removed."
+
