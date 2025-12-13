@@ -51,4 +51,10 @@ class MapManager:
 
         FileHandler.save_map(data)
         return True, "Location removed."
+    
+    @staticmethod
+    def search_by_category(category):
+        data = FileHandler.load_map()
+        return [n for n, info in data["locations"].items() if info["category"] == category]
+
 
