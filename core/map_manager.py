@@ -56,5 +56,25 @@ class MapManager:
     def search_by_category(category):
         data = FileHandler.load_map()
         return [n for n, info in data["locations"].items() if info["category"] == category]
+    
+    @staticmethod
+    def update_location(name, category=None, coords=None):
+        data = FileHandler.load_map()
+
+        if name not in data["locations"]:
+            return False, "Location not found"
+
+        if category:
+            data["locations"][name]["category"] = category
+
+        if coords:
+            ok, msg = Validator.validate_coordinates(coords)
+            if not ok:
+                return False, msg
+            data["locations"][name]["coords"] = coords
+
+        FileHandler.save_map(data)
+        return True, "Updated"
+
 
 
