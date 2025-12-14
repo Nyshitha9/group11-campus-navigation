@@ -15,3 +15,10 @@ class FileHandler:
                 return json.load(f)
         except:
             return {"locations": {}, "paths": {}}
+        
+    @staticmethod
+    def save_map(data):
+        with open(FileHandler.FILE_PATH, "w") as f:
+            json.dump(data, f, indent=4)
+        return True
+
