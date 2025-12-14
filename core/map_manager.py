@@ -75,6 +75,12 @@ class MapManager:
 
         FileHandler.save_map(data)
         return True, "Updated"
+    
+    @staticmethod
+    def list_all_locations():
+        data = FileHandler.load_map()
+        return list(data["locations"].keys())
+
 
 
 
