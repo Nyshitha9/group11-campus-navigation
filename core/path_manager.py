@@ -19,15 +19,11 @@ def validate_connectivity():
     return len(visited) == len(data["locations"])
 
 @staticmethod
-def add_path(a, b):
-    data = FileHandler.load_map()
+def route_summary(path):
+    if not path:
+        return "No route available."
 
-    if a not in data["locations"] or b not in data["locations"]:
-        return False, "Locations missing"
-
-    data["paths"].setdefault(a, []).append(b)
-    data["paths"].setdefault(b, []).append(a)
-
-    FileHandler.save_map(data)
-    return True, "Path added"
+    summary = f"Route: {' -> '.join(path)}\n"
+    summary += f"Stops: {len(path)-1}"
+    return summary
 
