@@ -17,3 +17,13 @@ def validate_connectivity():
 
     dfs(start)
     return len(visited) == len(data["locations"])
+
+@staticmethod
+def route_summary(path):
+    if not path:
+        return "No route available."
+
+    summary = f"Route: {' -> '.join(path)}\n"
+    summary += f"Stops: {len(path)-1}"
+    return summary
+
