@@ -4,6 +4,19 @@ from core.file_handler import FileHandler
 from core.file_handler import FileHandler
 from core.route_engine import RouteEngine
 
+import time
+from core.route_engine import RouteEngine
+
+class RouteEngine(RouteEngine):
+
+    @staticmethod
+    def timed_shortest_path(start, end):
+        start_time = time.time()
+        path = RouteEngine.shortest_path(start, end)
+        end_time = time.time()
+        return path, round(end_time - start_time, 4)
+
+
 class RouteEngine(RouteEngine):
 
     @staticmethod
