@@ -1,37 +1,6 @@
 import heapq
 from core.file_handler import FileHandler
 
-from core.file_handler import FileHandler
-from core.route_engine import RouteEngine
-
-import time
-from core.route_engine import RouteEngine
-
-class RouteEngine(RouteEngine):
-
-    @staticmethod
-    def timed_shortest_path(start, end):
-        start_time = time.time()
-        path = RouteEngine.shortest_path(start, end)
-        end_time = time.time()
-        return path, round(end_time - start_time, 4)
-
-
-class RouteEngine(RouteEngine):
-
-    @staticmethod
-    def fastest_route(start, end, speed):
-        if speed <= 0:
-            return None, None
-
-        path = RouteEngine.shortest_path(start, end)
-        if not path:
-            return None, None
-
-        distance = len(path) - 1
-        time = distance / speed
-        return path, round(time, 2)
-
 class RouteEngine:
 
     @staticmethod
@@ -69,31 +38,25 @@ class RouteEngine:
             path.append(parent[path[-1]])
         path.reverse()
         return path
-    
+
     @staticmethod
-    def shortest_path_avoiding(start, end, restricted):
-        data = FileHandler.load_map()
-        graph = data["paths"]
+    def fastest_route(start, end, speed):
+        if speed <= 0:
+            return None, None
 
-        if start not in graph or end not in graph:
-            return None
+        path = RouteEngine.shortest_path(start, end)
+        if not path:
+            return None, None
 
-        restricted = set(restricted)
-        if start in restricted or end in restricted:
-            return None
+        distance = len(path) - 1
+        time = distance / speed
+        return path, round(time, 2)
 
-        visited = set()
-        queue = [(start, [start])]
-
-        while queue:
-            node, path = queue.pop(0)
-            if node == end:
-                return path
-
-            visited.add(node)
-
-            for neigh in graph.get(node, []):
-                if neigh not in visited and neigh not in restricted:
-                    queue.append((neigh, path + [neigh]))
-
+    @staticmethod
+    def multi_criteria_route(start, end, speed, preference):
+        if preference == "shortest":
+            return RouteEngine.shortest_path(start, end)
+        if preference == "fastest":
+            path, _ = RouteEngine.fastest_route(start, end, speed)
+            return path
         return None
