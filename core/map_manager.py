@@ -41,7 +41,6 @@ class MapManager:
 
         del data["locations"][name]
 
-        # Remove paths
         if name in data["paths"]:
             del data["paths"][name]
 
@@ -81,6 +80,9 @@ class MapManager:
         data = FileHandler.load_map()
         return list(data["locations"].keys())
 
-
-
-
+    @staticmethod
+    def view_location_details(name):
+        data = FileHandler.load_map()
+        if name not in data["locations"]:
+            return False, "Location not found"
+        return True, data["locations"][name]
