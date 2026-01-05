@@ -86,3 +86,20 @@ class MapManager:
         if name not in data["locations"]:
             return False, "Location not found"
         return True, data["locations"][name]
+
+    @staticmethod
+    def filter_accessible_locations(reference, max_distance):
+        data = FileHandler.load_map()
+        if reference not in data["locations"]:
+            return []
+
+        rx, ry = data["locations"][reference]["coords"]
+        accessible = []
+
+        for name, info in data["locations"].items():
+            x, y = info["coords"]
+            distance = ((rx - x) ** 2 + (ry - y) ** 2) ** 0.5
+            if distance <= max_distance:
+                accessible.append(name)
+
+        return accessible
