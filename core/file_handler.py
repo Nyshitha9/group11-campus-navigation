@@ -4,49 +4,46 @@ from datetime import datetime
 
 class FileHandler:
 
-    FILE_PATH = "data/map.json"
-    VERSION_DIR = "data/versions"
+    # Compute project root directory (one level above "core")
+    ROOT = os.path.dirname(os.path.dirname(__file__))
+
+    FILE_PATH = os.path.join(ROOT, "data", "map.json")
+    VERSION_DIR = os.path.join(ROOT, "data", "versions")
 
     @staticmethod
     def load_map():
+        # Ensure directory exists
+        os.makedirs(os.path.join(FileHandler.ROOT, "data"), exist_ok=True)
+
+        # If file missing, create empty structure
         if not os.path.exists(FileHandler.FILE_PATH):
             return {"locations": {}, "paths": {}}
 
         try:
             with open(FileHandler.FILE_PATH, "r") as f:
-                data = json.load(f)
-                if not FileHandler.validate_imported_data(data):
-                    return {"locations": {}, "paths": {}}
-                return data
+                return json.load(f)
         except:
             return {"locations": {}, "paths": {}}
-        
+
     @staticmethod
     def save_map(data):
+        # Ensure data folder exists
+        os.makedirs(os.path.join(FileHandler.ROOT, "data"), exist_ok=True)
+
         with open(FileHandler.FILE_PATH, "w") as f:
             json.dump(data, f, indent=4)
+
         return True
 
     @staticmethod
     def backup_map(data):
         os.makedirs(FileHandler.VERSION_DIR, exist_ok=True)
-        ts = datetime.now().strftime("%Y%m%d_%H%M%S")
-        backup_file = f"backup_{ts}.json"
-        backup_path = os.path.join(FileHandler.VERSION_DIR, backup_file)
 
-        with open(backup_path, "w") as f:
+        ts = datetime.now().strftime("%Y%m%d_%H%M%S")
+        filename = f"backup_{ts}.json"
+        full_path = os.path.join(FileHandler.VERSION_DIR, filename)
+
+        with open(full_path, "w") as f:
             json.dump(data, f, indent=4)
 
-        return backup_path
-
-    @staticmethod
-    def validate_imported_data(data):
-        if not isinstance(data, dict):
-            return False
-        if "locations" not in data or "paths" not in data:
-            return False
-        if not isinstance(data["locations"], dict):
-            return False
-        if not isinstance(data["paths"], dict):
-            return False
-        return True
+        return full_path

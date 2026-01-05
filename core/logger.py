@@ -1,27 +1,19 @@
 import os
-from datetime import datetime
+import datetime
 
 class Logger:
 
-    LOG_DIR = "data"
+    # Detect project root (one level above "core")
+    ROOT = os.path.dirname(os.path.dirname(__file__))
+
+    LOG_DIR = os.path.join(ROOT, "data")
     LOG_FILE = os.path.join(LOG_DIR, "system.log")
 
     @staticmethod
-    def log(message, level="INFO"):
+    def log(message):
+        # Make sure data/ exists
         os.makedirs(Logger.LOG_DIR, exist_ok=True)
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        entry = f"[{timestamp}] [{level}] {message}\n"
+
+        ts = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         with open(Logger.LOG_FILE, "a") as f:
-            f.write(entry)
-
-    @staticmethod
-    def info(message):
-        Logger.log(message, "INFO")
-
-    @staticmethod
-    def warning(message):
-        Logger.log(message, "WARNING")
-
-    @staticmethod
-    def error(message):
-        Logger.log(message, "ERROR")
+            f.write(f"[{ts}] {message}\n")
