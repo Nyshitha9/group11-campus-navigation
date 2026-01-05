@@ -60,3 +60,33 @@ class RouteEngine:
             path, _ = RouteEngine.fastest_route(start, end, speed)
             return path
         return None
+
+    @staticmethod
+    def alternative_routes(start, end):
+        base_path = RouteEngine.shortest_path(start, end)
+        if not base_path or len(base_path) <= 2:
+            return []
+
+        data = FileHandler.load_map()
+        graph = data["paths"]
+        alternatives = []
+
+        for i in range(1, len(base_path) - 1):
+            blocked = base_path[i]
+            new_graph = {}
+
+            for node, neighs in graph.items():
+                if node == blocked:
+                    continue
+                new_graph[node] = [n for n in neighs if n != blocked]
+
+            original_paths = data["paths"]
+            data["paths"] = new_graph
+
+            alt = RouteEngine.shortest_path(start, end)
+            if alt and alt != base_path and alt not in alternatives:
+                alternatives.append(alt)
+
+            data["paths"] = original_paths
+
+        return alternatives
