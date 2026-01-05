@@ -14,7 +14,10 @@ class FileHandler:
 
         try:
             with open(FileHandler.FILE_PATH, "r") as f:
-                return json.load(f)
+                data = json.load(f)
+                if not FileHandler.validate_imported_data(data):
+                    return {"locations": {}, "paths": {}}
+                return data
         except:
             return {"locations": {}, "paths": {}}
         
@@ -35,3 +38,15 @@ class FileHandler:
             json.dump(data, f, indent=4)
 
         return backup_path
+
+    @staticmethod
+    def validate_imported_data(data):
+        if not isinstance(data, dict):
+            return False
+        if "locations" not in data or "paths" not in data:
+            return False
+        if not isinstance(data["locations"], dict):
+            return False
+        if not isinstance(data["paths"], dict):
+            return False
+        return True
