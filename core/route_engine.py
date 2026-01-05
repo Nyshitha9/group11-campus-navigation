@@ -90,4 +90,12 @@ class RouteEngine:
             data["paths"] = original_paths
 
         return alternatives
-    #
+
+    @staticmethod
+    def time_constrained_route(start, end, speed, max_time):
+        path, time = RouteEngine.fastest_route(start, end, speed)
+        if not path:
+            return None
+        if time > max_time:
+            return None
+        return path
