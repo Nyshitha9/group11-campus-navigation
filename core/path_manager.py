@@ -58,3 +58,19 @@ class PathManager:
         for i in range(len(path) - 1):
             steps.append(f"Step {i+1}: Go from {path[i]} to {path[i+1]}")
         return steps
+
+    @staticmethod
+    def remove_path(a, b):
+        data = FileHandler.load_map()
+
+        if a not in data["paths"] or b not in data["paths"]:
+            return False, "Invalid locations"
+
+        if b in data["paths"].get(a, []):
+            data["paths"][a].remove(b)
+
+        if a in data["paths"].get(b, []):
+            data["paths"][b].remove(a)
+
+        FileHandler.save_map(data)
+        return True, "Path removed successfully"
