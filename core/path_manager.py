@@ -1,4 +1,28 @@
 from map_manager import FileHandler
+from core.file_handler import FileHandler
+
+class PathManager:
+
+    @staticmethod
+    def detect_unreachable_locations():
+        data = FileHandler.load_map()
+        locations = set(data["locations"].keys())
+        paths = data["paths"]
+
+        if not locations:
+            return []
+
+        visited = set()
+        start = next(iter(locations))
+
+        def dfs(node):
+            visited.add(node)
+            for neigh in paths.get(node, []):
+                if neigh not in visited:
+                    dfs(neigh)
+
+        dfs(start)
+        return list(locations - visited)
 
 @staticmethod
 def validate_connectivity():
@@ -26,4 +50,5 @@ def route_summary(path):
     summary = f"Route: {' -> '.join(path)}\n"
     summary += f"Stops: {len(path)-1}"
     return summary
+
 

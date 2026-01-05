@@ -18,3 +18,16 @@ class Validator:
         if not (0 <= x <= 5000 and 0 <= y <= 5000):
             return False, "Coordinates out of range"
         return True, ""
+    
+    @staticmethod
+    def validate_speed(speed):
+        try:
+            speed = float(speed)
+            if speed <= 0:
+                return False, "Speed must be > 0"
+            if speed > 10:
+                return False, "Speed too high"
+            return True, ""
+        except:
+            return False, "Invalid speed input"
+

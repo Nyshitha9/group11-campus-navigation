@@ -1,6 +1,24 @@
 import heapq
 from core.file_handler import FileHandler
 
+from core.file_handler import FileHandler
+from core.route_engine import RouteEngine
+
+class RouteEngine(RouteEngine):
+
+    @staticmethod
+    def fastest_route(start, end, speed):
+        if speed <= 0:
+            return None, None
+
+        path = RouteEngine.shortest_path(start, end)
+        if not path:
+            return None, None
+
+        distance = len(path) - 1
+        time = distance / speed
+        return path, round(time, 2)
+
 class RouteEngine:
 
     @staticmethod
