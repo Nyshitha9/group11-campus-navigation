@@ -1,0 +1,106 @@
+{
+    "locations": {
+        "Main Gate": {
+            "category": "Garden",
+            "coords": [
+                22,
+                45
+            ]
+        },
+        "Library": {
+            "category": "Academic",
+            "coords": [
+                20,
+                40
+            ]
+        },
+        "Cafeteria": {
+            "category": "Canteen",
+            "coords": [
+                50,
+                25
+            ]
+        },
+        "Sports Complex": {
+            "category": "Sports",
+            "coords": [
+                70,
+                60
+            ]
+        },
+        "Engineering Block": {
+            "category": "Laboratory",
+            "coords": [
+                40,
+                80
+            ]
+        },
+        "Hostel A": {
+            "category": "Hostel",
+            "coords": [
+                90,
+                15
+            ]
+        },
+        "Admin Block": {
+            "category": "Administrative",
+            "coords": [
+                25,
+                20
+            ]
+        },
+        "Parking Lot": {
+            "category": "Parking",
+            "coords": [
+                15,
+                5
+            ]
+        },
+        "Lecture Hall 1": {
+            "category": "Academic",
+            "coords": [
+                35,
+                50
+            ]
+        },
+        "Auditorium": {
+            "category": "Academic",
+            "coords": [
+                10,
+                10
+            ]
+        }
+    },
+    "paths": {
+        "Main Gate": [
+            "Admin Block",
+            "Parking Lot"
+        ],
+        "Library": [
+            "Admin Block",
+            "Lecture Hall 1"
+        ],
+        "Cafeteria": [
+            "Admin Block"
+        ],
+        "Sports Complex": [],
+        "Engineering Block": [
+            "Lecture Hall 1"
+        ],
+        "Hostel A": [
+            "Cafeteria"
+        ],
+        "Admin Block": [
+            "Main Gate",
+            "Cafeteria",
+            "Library"
+        ],
+        "Parking Lot": [
+            "Main Gate"
+        ],
+        "Lecture Hall 1": [
+            "Library",
+            "Engineering Block"
+        ]
+    }
+}
