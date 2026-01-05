@@ -31,3 +31,12 @@ class Validator:
         except:
             return False, "Invalid speed input"
 
+    @staticmethod
+    def validate_route_input(start, end):
+        if not isinstance(start, str) or not isinstance(end, str):
+            return False, "Route locations must be strings"
+        if start.strip() == "" or end.strip() == "":
+            return False, "Route locations cannot be empty"
+        if start == end:
+            return False, "Start and end locations must be different"
+        return True, ""
