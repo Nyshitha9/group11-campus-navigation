@@ -56,3 +56,31 @@ class RouteEngine:
             path.append(parent[path[-1]])
         path.reverse()
         return path
+    
+    @staticmethod
+    def shortest_path_avoiding(start, end, restricted):
+        data = FileHandler.load_map()
+        graph = data["paths"]
+
+        if start not in graph or end not in graph:
+            return None
+
+        restricted = set(restricted)
+        if start in restricted or end in restricted:
+            return None
+
+        visited = set()
+        queue = [(start, [start])]
+
+        while queue:
+            node, path = queue.pop(0)
+            if node == end:
+                return path
+
+            visited.add(node)
+
+            for neigh in graph.get(node, []):
+                if neigh not in visited and neigh not in restricted:
+                    queue.append((neigh, path + [neigh]))
+
+        return None
